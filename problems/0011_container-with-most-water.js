@@ -52,6 +52,10 @@ var maxArea = function (height) {
     const h = Math.min(height[head], height[tail])
     result = Math.max(h * w, result)
 
+    // Explanation: We will never get a higher area moving the
+    // taller side inward, since what determines its volume is the
+    // smaller side. So we move it inward so we may have the opportunity
+    // to have a higher volume
     if (height[head] > height[tail]) {
       tail++
     } else {
