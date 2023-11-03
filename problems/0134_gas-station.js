@@ -54,7 +54,6 @@ var canCompleteCircuit = function (gas, cost) {
 
   while (end - start < n && start < n) {
     const i = end % n
-
     netTotal += gas[i] - cost[i]
 
     if (netTotal < 0) {
