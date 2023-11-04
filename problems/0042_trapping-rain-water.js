@@ -56,3 +56,45 @@ var trap = function (height) {
 
   return result
 }
+
+// Beautiful O(1) solution
+var trap = function (height) {
+  let result = 0
+
+  // A decreasing caterpillar method
+  let left = 0
+  let right = height.length - 1
+
+  // The maximum heights found
+  // on the left and right sides
+  let maxLeft = 0
+  let maxRight = 0
+
+  while (left <= right) {
+    // There is a wall to the right that can at least
+    // trap all the water that the left wall can
+    if (height[left] <= height[right]) {
+      if (maxLeft < height[left]) {
+        maxLeft = height[left]
+      } else {
+        result += maxLeft - height[left]
+      }
+
+      left++
+    }
+
+    // There is a wall to the left that can at least
+    // trap all the water that the right wall can
+    else {
+      if (maxRight < height[right]) {
+        maxRight = height[right]
+      } else {
+        result += maxRight - height[right]
+      }
+
+      right--
+    }
+  }
+
+  return result
+}
