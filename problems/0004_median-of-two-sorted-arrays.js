@@ -23,6 +23,7 @@ Constraints:
 
 */
 
+// O(n) solution
 var findMedianSortedArrays = function (nums1, nums2) {
   const m = nums1.length
   const n = nums2.length
