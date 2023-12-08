@@ -64,5 +64,6 @@ var maxProfit = function (prices) {
   let result = 0
   for (let i = 0; i < n; i++)
     result = Math.max(result, bestEndingAt[i] + bestStartingAt[i])
+
   return result
 }
