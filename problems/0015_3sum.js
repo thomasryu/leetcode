@@ -61,7 +61,6 @@ var threeSum = function (nums) {
 var threeSum = function (nums) {
   nums.sort((a, b) => a - b)
   const result = []
-  const set = new Set()
 
   for (let i = 0; i < nums.length - 2; i++) {
     // Stops us from getting i duplicates
