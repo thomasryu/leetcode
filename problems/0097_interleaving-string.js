@@ -38,7 +38,7 @@ Follow up: Could you solve it using only O(s2.length) additional memory space?
 
 */
 
-// Interactive + recursion hybrid (time limit exceeded)
+// Iteractive + recursion hybrid (time limit exceeded)
 var isInterleave = function (s1, s2, s3, c1 = 0, c2 = 0, c3 = 0) {
   if (s1.length + s2.length != s3.length) return false
 

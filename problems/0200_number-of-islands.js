@@ -54,7 +54,7 @@ var numIslands = function (grid) {
         result++
         stack.push([i, j])
 
-        // 2. We save all interactively save all adjacent
+        // 2. We save all iteractively save all adjacent
         //    island tiles in the stack and mark it entirely
         //    as already visited
         while (stack.length > 0) {

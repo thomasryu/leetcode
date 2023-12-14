@@ -34,7 +34,7 @@ var kthSmallest = function (root, k) {
   return array[k - 1]
 }
 
-// Array + interactive solution (improvement in performance and space)
+// Array + iteractive solution (improvement in performance and space)
 var kthSmallest = function (root, k) {
   let current = root
   const array = []

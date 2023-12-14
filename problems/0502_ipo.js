@@ -96,7 +96,7 @@ var findMaximizedCapital = function (k, w, profits, capital) {
   return w
 }
 
-// Very efficient solution (interactive)
+// Very efficient solution (iteractive)
 var findMaximizedCapital = function (k, w, profits, capital) {
   // If all projects are affordable, we select the k most profitable ones
   // (this pre-condition is why we save so much time, else the time limit would be exceeded)

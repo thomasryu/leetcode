@@ -1,4 +1,4 @@
-// O(n) solution (interactive)
+// O(n) solution (iteractive)
 var findPeakElement = function (nums) {
   nums.push(-Infinity)
   nums.unshift(-Infinity)

@@ -47,7 +47,7 @@ var minPathSum = function (grid) {
   return grid[grid.length - 1][grid[0].length - 1]
 }
 
-// Interactive + DP solution
+// Iteractive + DP solution
 var minPathSum = function (grid) {
   // Since the flow is top left to bottom right,
   // we don't even need to BFS, a simple 2D iteration will do

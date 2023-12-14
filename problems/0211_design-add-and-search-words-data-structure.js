@@ -61,7 +61,7 @@ WordDictionary.prototype.search = function (
 
     // If the current letter is '.', we have to recursively test
     // every possibility in the trie from that point on,
-    // instead of doing it interactively
+    // instead of doing it iteractively
     if (currentLetter == '.') {
       for (let nextLetter in node)
         if (

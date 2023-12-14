@@ -1,0 +1,50 @@
+/*
+
+Given the head of a singly linked list,
+reverse the list, and return the reversed list.
+
+Example 1:
+  Input: head = [1,2,3,4,5]
+  Output: [5,4,3,2,1]
+
+Example 2:
+  Input: head = [1,2]
+  Output: [2,1]
+
+Example 3:
+  Input: head = []
+  Output: []
+
+Constraints:
+- The number of nodes in the list is the range [0, 5000].
+- -5000 <= Node.val <= 5000
+
+Follow up: A linked list can be reversed either iteratively or recursively.
+           Could you implement both?
+
+*/
+
+// Iterative solution
+var reverseList = function (head) {
+  if (!head) return head
+
+  const nodes = []
+  while (head) {
+    nodes.push(head)
+    head = head.next
+  }
+
+  for (let i = nodes.length - 1; i > 0; i--) nodes[i].next = nodes[i - 1]
+  nodes[0].next = null
+
+  return nodes[nodes.length - 1]
+}
+
+// Recursive solution
+var reverseList = function (head) {
+  if (!head || !head.next) return head
+  const reverse = reverseList(head.next)
+  head.next.next = head
+  head.next = null
+  return reverse
+}

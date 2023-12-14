@@ -24,7 +24,7 @@ Constraints:
 
 */
 
-// Interactive solution
+// Iteractive solution
 var gcdOfStrings = function (str1, str2) {
   const m = str1.length
   const n = str2.length

@@ -37,7 +37,7 @@ Follow up: Could you solve it with time complexity O(height of tree)?
 
 */
 
-// Interactive solution (inefficient)
+// Iteractive solution (inefficient)
 var deleteNode = function (root, key) {
   const replaceNode = (node, parent) => {
     // We use these to avoid replicating code in case
