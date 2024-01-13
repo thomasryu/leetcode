@@ -113,3 +113,66 @@ var fullJustify = function (words, maxWidth) {
 
   return lines
 }
+
+// Optimized solution
+var fullJustify = function (words, max_width) {
+  let result = []
+  let curr_line_start = 0
+
+  while (curr_line_start < words.length) {
+    let curr_index = curr_line_start
+
+    let curr_line_length = 0
+    let curr_line_string = ''
+
+    for (; curr_index < words.length; curr_index++) {
+      // If the current word fits in the current line, add it
+      // (curr_index - curr_line_start) gives me the single spaces between the words
+      if (
+        curr_line_length +
+          words[curr_index].length +
+          (curr_index - curr_line_start) <=
+        max_width
+      )
+        curr_line_length += words[curr_index].length
+      // Else, stop the loop
+      else break
+    }
+
+    // If our line only has one word or we are at the last line
+    // we use single spaces (for last line) and pad the right with spaces
+    if (curr_index == words.length || curr_index - curr_line_start == 1) {
+      for (let i = curr_line_start; i < curr_index; i++) {
+        curr_line_string += words[i]
+        if (i != curr_index - 1) curr_line_string += ' '
+      }
+      result.push(curr_line_string.padEnd(max_width, ' '))
+    }
+
+    // The default situation, where we must space the words out
+    else {
+      const space_slots = curr_index - curr_line_start - 1
+      const space_size = Math.floor(
+        (max_width - curr_line_length) / space_slots,
+      )
+      let leftover_space = (max_width - curr_line_length) % space_slots
+
+      for (let i = curr_line_start; i < curr_index; i++) {
+        curr_line_string += words[i]
+        if (i < curr_index - 1) {
+          curr_line_string += ' '.repeat(space_size)
+          if (leftover_space) {
+            curr_line_string += ' '
+            leftover_space--
+          }
+        }
+      }
+
+      result.push(curr_line_string)
+    }
+
+    curr_line_start = curr_index
+  }
+
+  return result
+}
