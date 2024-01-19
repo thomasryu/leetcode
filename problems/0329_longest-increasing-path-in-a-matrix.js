@@ -34,8 +34,7 @@ var longestIncreasingPath = function (matrix) {
 
     for (let [di, dj] of moves) {
       if (i + di < 0 || i + di >= m || j + dj < 0 || j + dj >= n) continue
-      if (matrix[i + di][j + dj] > matrix[i][j])
-        new_queue.push([i + di, j + dj])
+      if (matrix[i + di][j + dj] > matrix[i][j]) new_queue.push([i + di, j + dj])
     }
 
     if (queue.length == 0 && new_queue.length > 0) {
@@ -79,8 +78,7 @@ var longestIncreasingPath = function (matrix) {
       // For each adjacent
       if (matrix[i + di][j + dj] > matrix[i][j]) {
         highest_value = false
-        if (dp[i + di][j + dj] > 0)
-          dp[i][j] = Math.max(dp[i][j], dp[i + di][j + dj] + 1)
+        if (dp[i + di][j + dj] > 0) dp[i][j] = Math.max(dp[i][j], dp[i + di][j + dj] + 1)
         else dp[i][j] = Math.max(dp[i][j], dfs(i + di, j + dj) + 1)
       }
     }
