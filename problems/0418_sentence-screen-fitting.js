@@ -42,6 +42,7 @@ Constraints:
 
 */
 
+// Unoptimized brute force solution
 var wordsTyping = function (sentence, rows, cols) {
   let k = 0
   let result = 0
@@ -83,4 +84,47 @@ var wordsTyping = function (sentence, rows, cols) {
   }
 
   return result
+}
+
+const wordsTyping = (sentence, rows, cols) => {
+  const sentence_length = sentence.length
+  const next_row_word = Array(sentence_length)
+  const fit_times = Array(sentence_length)
+
+  for (let i = 0; i < sentence_length; i++) {
+    let curr_word = i
+    let curr_length = 0
+    let curr_fit_times = 0
+
+    // While there is space in the row, add our words
+    while (curr_length + sentence[curr_word].length <= cols) {
+      curr_length += sentence[curr_word].length + 1
+      curr_word++
+
+      // If we reached the end of the sentence, we add up
+      // our "times the sentence fit" counter
+      if (curr_word == sentence_length) {
+        curr_fit_times++
+        curr_word = 0
+      }
+    }
+
+    // Beginning a row with word i, the word that
+    // starts the next row is curr_word
+    next_row_word[i] = curr_word
+
+    // Beginning a row with word i, the number of times
+    // the sentence fits a row is curr_fit_time
+    fit_times[i] = curr_fit_times
+  }
+
+  let starting_word = 0
+  let total_times = 0
+
+  for (let i = 0; i < rows; i++) {
+    total_times += fit_times[starting_word]
+    starting_word = next_row_word[starting_word]
+  }
+
+  return total_times
 }
