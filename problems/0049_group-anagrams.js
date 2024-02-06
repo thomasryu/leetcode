@@ -82,3 +82,20 @@ var groupAnagrams = function (strs) {
   // Very elegant return
   return [...result.values()]
 }
+
+// Daily challenge attempt
+var groupAnagrams = function (strs) {
+  const dictionary = []
+  const result = []
+
+  for (let s of strs) {
+    const sorted = s.split('').sort().join('')
+    const found = dictionary.indexOf(sorted)
+    if (found < 0) {
+      dictionary.push(sorted)
+      result.push([s])
+    } else result[found].push(s)
+  }
+
+  return result
+}
