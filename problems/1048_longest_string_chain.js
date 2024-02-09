@@ -38,10 +38,7 @@ var longestStrChain = function (words) {
 
   for (let i = 0; i < words.length; i++) {
     for (let j = i - 1; j >= 0 && words[i].length - words[j].length < 2; j--) {
-      if (
-        words[i].length - words[j].length == 1 &&
-        isPredecessor(words[j], words[i])
-      )
+      if (words[i].length - words[j].length == 1 && isPredecessor(words[j], words[i]))
         dp[i] = Math.max(dp[i], dp[j] + 1)
     }
   }
@@ -60,4 +57,56 @@ const isPredecessor = (pred, succ) => {
   }
 
   return true
+}
+
+// Revisit at 09/02/2024
+var longestStrChain = function (words) {
+  const is_predecessor = (pred, succ) => {
+    if (succ.length != pred.length + 1) return false
+
+    let i = 0
+    let j = 0
+    let diffs = 0
+
+    while (i < pred.length && j < succ.length) {
+      if (pred[i] != succ[j]) {
+        // There is more than one difference
+        if (diffs == 1) return false
+        // We tolerate one difference
+        else {
+          diffs++
+          j++
+        }
+      } else {
+        i++
+        j++
+      }
+    }
+
+    return true
+  }
+
+  const n = words.length
+  const dp = Array(n) // dp[i] is the length of the LSC, starting from words[i]
+
+  words.sort((a, b) => a.length - b.length || a - b)
+
+  const test_chain = (pred, start) => {
+    if (dp[start]) return dp[start]
+
+    let result = 1
+    for (let i = start; i < n; i++) {
+      const succ = words[i]
+      if (pred.length == succ.length || succ.length > pred.length + 1) continue
+      if (is_predecessor(pred, succ)) result = Math.max(result, test_chain(succ, i + 1) + 1)
+    }
+
+    dp[start] = result
+    return result
+  }
+
+  let result = 1
+  for (let i = 0; i < n; i++) result = Math.max(result, test_chain(words[i], i + 1))
+
+  return result
 }
