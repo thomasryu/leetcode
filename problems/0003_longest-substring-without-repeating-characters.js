@@ -45,3 +45,27 @@ var lengthOfLongestSubstring = function (s) {
 
   return result
 }
+
+// Attempt made at 16/02/2024
+var lengthOfLongestSubstring = function (s) {
+  if (s.length < 2) return s.length
+
+  let result = 0
+
+  let tail = 0
+  let head = 1
+  const set = new Set(s[tail])
+
+  while (head < s.length) {
+    while (set.has(s[head])) {
+      set.delete(s[tail])
+      tail++
+    }
+
+    set.add(s[head])
+    result = Math.max(result, head - tail + 1)
+    head++
+  }
+
+  return result
+}
