@@ -118,8 +118,7 @@ var mostBooked = function (n, meetings) {
     // If no room was found, we book the earliest available one
     if (!found_room) {
       room_uses[earliest_available_room]++
-      available_time[earliest_available_room] =
-        earliest_available_time + (end - start)
+      available_time[earliest_available_room] = earliest_available_time + (end - start)
     }
   }
 
@@ -152,10 +151,7 @@ var mostBooked = function (n, meetings) {
     const [start, end] = meeting
 
     // Move all now-available rooms to the proper queue
-    while (
-      !occupied_rooms.isEmpty() &&
-      occupied_rooms.front().element.time <= start
-    )
+    while (!occupied_rooms.isEmpty() && occupied_rooms.front().element.time <= start)
       available_rooms.enqueue(occupied_rooms.dequeue().element)
 
     // Determine the chosen room based on whether there are available rooms
@@ -173,4 +169,33 @@ var mostBooked = function (n, meetings) {
   }
 
   return room_uses.indexOf(Math.max(...room_uses))
+}
+
+// Attempt made at 18/02/2024
+var mostBooked = function (n, meetings) {
+  const rooms_uses = Array(n).fill(0)
+
+  const occupied_rooms = new MinPriorityQueue({ priority: (e) => e[1] + e[0] / 1000 })
+  const available_rooms = new MinPriorityQueue({ priority: (e) => e[0] })
+
+  meetings.sort((a, b) => a[0] - b[0])
+
+  for (let meeting of meetings) {
+    const [start, end] = meeting
+
+    while (!occupied_rooms.isEmpty() && occupied_rooms.front().element[1] <= start)
+      available_rooms.enqueue(occupied_rooms.dequeue().element)
+
+    let room_index, room_end
+    if (available_rooms.size() > 0) [room_index, room_end] = available_rooms.dequeue().element
+    else if (available_rooms.size() + occupied_rooms.size() < n)
+      [room_index, room_end] = [available_rooms.size() + occupied_rooms.size(), 0]
+    else [room_index, room_end] = occupied_rooms.dequeue().element
+
+    if (start >= room_end) occupied_rooms.enqueue([room_index, end])
+    else occupied_rooms.enqueue([room_index, room_end + (end - start)])
+    rooms_uses[room_index]++
+  }
+
+  return rooms_uses.indexOf(Math.max(...rooms_uses))
 }
