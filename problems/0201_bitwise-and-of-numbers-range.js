@@ -35,3 +35,17 @@ var rangeBitwiseAnd = function (left, right) {
   // leading 0s on the right
   return left << count
 }
+
+// Attempt made at 21/02/2024
+var rangeBitwiseAnd = function (left, right) {
+  let shift_count = 0
+
+  while (left != right) {
+    right = right >> 1
+    left = left >> 1
+    shift_count++
+  }
+
+  if (left == 0) return 0
+  return left << shift_count
+}
