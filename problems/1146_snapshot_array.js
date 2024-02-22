@@ -85,8 +85,7 @@ SnapshotArray.prototype.set = function (index, val) {
 }
 
 SnapshotArray.prototype.snap = function () {
-  if (this.changed || this.history.length == 0)
-    this.history.push({ ...this.latest })
+  if (this.changed || this.history.length == 0) this.history.push({ ...this.latest })
   else this.history.push(this.history[this.history.length - 1])
 
   this.changed = false
@@ -94,6 +93,30 @@ SnapshotArray.prototype.snap = function () {
 }
 
 SnapshotArray.prototype.get = function (index, snap_id) {
-  console.log(this.history)
   return this.history[snap_id][index] || 0
+}
+
+// Attempt made at 22/02/2024
+var SnapshotArray = function (length) {
+  this.current = [] // Initializing it empty is a optimization
+  this.log = new Map()
+  this.changed = false
+}
+
+SnapshotArray.prototype.set = function (index, val) {
+  this.current[index] = val
+  this.changed = true
+}
+
+SnapshotArray.prototype.snap = function () {
+  const { size } = this.log
+  if (this.changed || size == 0) {
+    this.log.set(size, [...this.current])
+    this.changed = false
+  } else this.log.set(size, this.log.get(size - 1))
+  return size
+}
+
+SnapshotArray.prototype.get = function (index, snap_id) {
+  return this.log.get(snap_id)[index] || 0
 }
