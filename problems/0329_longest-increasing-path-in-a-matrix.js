@@ -97,3 +97,42 @@ var longestIncreasingPath = function (matrix) {
 
   return result
 }
+
+// Attempt made at 23/02/2024
+var longestIncreasingPath = function (matrix) {
+  const m = matrix.length
+  const n = matrix[0].length
+  const steps = [
+    [-1, 0],
+    [1, 0],
+    [0, -1],
+    [0, 1],
+  ]
+
+  // dp[i][j] gives me the LIP starting in matrix[i][j]
+  const dp = Array(m)
+    .fill()
+    .map(() => Array(n).fill())
+
+  const dfs = (row, col) => {
+    if (dp[row][col]) return dp[row][col]
+
+    let result = 1
+    for (let [d_row, d_col] of steps) {
+      const [next_row, next_col] = [row + d_row, col + d_col]
+      if (next_row < 0 || next_col < 0 || next_row >= m || next_col >= n) continue
+      if (matrix[next_row][next_col] <= matrix[row][col]) continue
+
+      result = Math.max(result, dfs(next_row, next_col) + 1)
+    }
+
+    dp[row][col] = result
+    return result
+  }
+
+  let result = 0
+
+  for (let i = 0; i < m; i++) for (let j = 0; j < n; j++) result = Math.max(result, dfs(i, j))
+
+  return result
+}
