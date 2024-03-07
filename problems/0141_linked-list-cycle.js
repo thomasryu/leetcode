@@ -42,3 +42,12 @@ var hasCycle = function (head) {
 
   return head?.next != null
 }
+
+// Attempt made at 06/03/2023
+var hasCycle = function (head) {
+  while (head && head.val >= -(10 ** 5)) {
+    head.val = -100001
+    head = head.next
+  }
+  return !!head?.next
+}
