@@ -120,3 +120,32 @@ SnapshotArray.prototype.snap = function () {
 SnapshotArray.prototype.get = function (index, snap_id) {
   return this.log.get(snap_id)[index] || 0
 }
+
+// Attempt made at 14/03/2024
+var SnapshotArray = function (length) {
+  this.snap_id = 0
+
+  this.array = []
+  this.log = []
+
+  this.changed = false
+}
+
+SnapshotArray.prototype.set = function (index, val) {
+  this.array[index] = val
+  this.changed = true
+}
+
+SnapshotArray.prototype.snap = function () {
+  if (this.changed) this.log.push([...this.array])
+  else this.log[this.snap_id] = this.log[this.snap_id - 1]
+
+  this.changed = false
+  this.snap_id++
+
+  return this.snap_id - 1
+}
+
+SnapshotArray.prototype.get = function (index, snap_id) {
+  return this.log[snap_id]?.[index] || 0
+}

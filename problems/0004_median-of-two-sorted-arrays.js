@@ -44,3 +44,33 @@ var findMedianSortedArrays = function (nums1, nums2) {
     return merge[merge.length - 1]
   }
 }
+
+// Attempt made at 14/03/2024
+var findMedianSortedArrays = function (nums1, nums2) {
+  let i = 0 // nums1
+  let j = 0 // nums2
+
+  const m = nums1.length
+  const n = nums2.length
+
+  const median = Math.floor((m + n - 1) / 2)
+
+  while (i + j < median) {
+    if (nums1[i] <= nums2[j] || j == n) i++
+    else j++ // nums[j] < nums[i] || i == m
+  }
+
+  let center_count = (m + n) % 2 == 0 ? 2 : 1
+  let median_sum = 0
+  for (let k = 0; k < center_count; k++) {
+    if (nums1[i] <= nums2[j] || j == n) {
+      median_sum += nums1[i]
+      i++
+    } else {
+      median_sum += nums2[j]
+      j++
+    }
+  }
+
+  return median_sum / center_count
+}

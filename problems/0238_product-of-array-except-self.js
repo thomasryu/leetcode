@@ -122,3 +122,23 @@ var productExceptSelf = function (nums) {
 
   return result
 }
+
+// Attempt made at 15/03/2024
+// (not optimal due to push and unshift)
+var productExceptSelf = function (nums) {
+  const n = nums.length
+  const left_to_right = [1]
+  const right_to_left = [1]
+
+  for (let i = 0; i < n; i++) {
+    const left_to_right_prod = left_to_right[left_to_right.length - 1]
+    const right_to_left_prod = right_to_left[0]
+
+    left_to_right.push(left_to_right_prod * nums[i])
+    right_to_left.unshift(right_to_left_prod * nums[n - 1 - i])
+  }
+
+  for (let i = 0; i < n; i++) nums[i] = left_to_right[i] * right_to_left[i + 1]
+
+  return nums
+}
