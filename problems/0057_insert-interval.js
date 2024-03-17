@@ -55,3 +55,52 @@ var insert = function (intervals, newInterval) {
 
   return result
 }
+
+// Attempt made at 17/03/2024
+var insert = function (intervals, new_interval) {
+  const result = []
+
+  let [new_start, new_end] = new_interval
+  let inserted_new_interval = false
+
+  for (let [start, end] of intervals) {
+    // 1. If new_start > end (i.e. new_interval is fully AFTER the current one)
+    //    OR if new_interval was already inserted, we simply insert current interval
+    if (inserted_new_interval || new_start > end) {
+      result.push([start, end])
+    }
+
+    // 2. If new_end < start (i.e. new_inteval is fully BEFORE the current one),
+    //    we insert new_interval, insert current interval after
+    else if (new_end < start) {
+      result.push([new_start, new_end])
+      result.push([start, end])
+      inserted_new_interval = true
+    }
+
+    // 3. (INTERSECTION) If new_start < start
+    //  3.1. If new_end <= end, new_interval becomes [new_start, end]
+    //       and we insert it, since no more intersections will happen.
+    //  3.2. If new_end > end, we skip current interval entirely and proceed
+    else if (new_start <= start) {
+      if (new_end < end) {
+        result.push([new_start, end])
+        inserted_new_interval = true
+      }
+      // else, do nothing
+    }
+
+    // 4. (INTESECTION) If new_start >= start
+    //  4.1 If new_end <= end, current interval engulfs new_interval entirely,
+    //      which means it won't affect intervals[], so we just return intervals[]
+    //  4.2 If new_end > end, new_interval becomes [start, new_end] and CAN intersections
+    //      with further intervals
+    else if (new_start >= start) {
+      if (new_end <= end) return intervals
+      else new_start = start
+    }
+  }
+
+  if (!inserted_new_interval) result.push([new_start, new_end])
+  return result
+}
