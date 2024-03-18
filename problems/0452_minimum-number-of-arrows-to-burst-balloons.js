@@ -60,3 +60,26 @@ var findMinArrowShots = function (points) {
 
   return points.length - intersections
 }
+
+// Attempt made at 18/03/2024
+var findMinArrowShots = function (points) {
+  points.sort((a, b) => a[0] - b[0])
+  let arrows = 0
+
+  for (let i = 0; i < points.length; i++) {
+    arrows++
+    let [start, end] = points[i]
+
+    for (let j = i + 1; j < points.length; j++) {
+      const [new_start, new_end] = points[j]
+
+      if (new_start <= end) {
+        i = j
+        start = Math.max(start, new_start)
+        end = Math.min(end, new_end)
+      } else break
+    }
+  }
+
+  return arrows
+}
