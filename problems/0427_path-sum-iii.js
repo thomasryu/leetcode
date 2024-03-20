@@ -46,3 +46,29 @@ var pathSum = function (root, targetSum) {
   search(root)
   return result
 }
+
+// Attempt made at 20/03/2024
+var pathSum = function (root, targetSum) {
+  if (root == null) return 0
+
+  // prefixMap gives me all the previous prefixes from the root node
+  // to the current one inside the DFS call
+  const prefixMap = new Map()
+  prefixMap.set(0, 1) // An empty tree has a prefix 0
+
+  let result = 0
+
+  const dfs = (node, prev_prefix, prefixMap) => {
+    const curr_prefix = prev_prefix + node.val
+    result += prefixMap.get(curr_prefix - targetSum) || 0
+    prefixMap.set(curr_prefix, (prefixMap.get(curr_prefix) || 0) + 1)
+
+    if (node.left) dfs(node.left, curr_prefix, prefixMap)
+    if (node.right) dfs(node.right, curr_prefix, prefixMap)
+
+    prefixMap.set(curr_prefix, prefixMap.get(curr_prefix) - 1)
+  }
+
+  dfs(root, 0, prefixMap)
+  return result
+}

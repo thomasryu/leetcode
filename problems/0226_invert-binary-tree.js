@@ -29,3 +29,20 @@ var invertTree = function (root) {
 
   return root
 }
+
+// Attempt made at 20/03/2024
+var invertTree = function (root) {
+  if (!root) return root
+
+  const reverse = (node) => {
+    if (!(node.left || node.right)) return
+
+    node.left && reverse(node.left)
+    node.right && reverse(node.right)
+
+    ;[node.left, node.right] = [node.right, node.left]
+  }
+
+  reverse(root)
+  return root
+}
