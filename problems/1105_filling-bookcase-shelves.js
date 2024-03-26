@@ -53,8 +53,8 @@ var minHeightShelves = function (books, shelf_width) {
       curr_width += width
       max_height = Math.max(max_height, height)
 
-      // For each book that fits, we adding our current shelf to dp[j - 1]
-      // (the shelf before addingthe j-th book) gives me a better result
+      // For each book that fits, we add our current shelf to dp[j - 1]
+      // (the shelf before adding the j-th book) gives me a better result
       dp[i] = Math.min(dp[i], max_height + (dp[j - 1] || 0))
     }
   }
