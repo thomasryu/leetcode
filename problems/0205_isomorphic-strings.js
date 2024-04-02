@@ -45,3 +45,23 @@ var isIsomorphic = function (s, t) {
 
   return true
 }
+
+// Attempt made at 02/04/2024
+var isIsomorphic = function (s, t) {
+  if (s.length != t.length) return false
+
+  const map = {}
+  const reverse_map = {}
+  for (let i = 0; i < s.length; i++) {
+    const letter_s = s[i]
+    const letter_t = t[i]
+
+    if (map[letter_s] && map[letter_s] != letter_t) return false
+    if (reverse_map[letter_t] && reverse_map[letter_t] != letter_s) return false
+
+    map[letter_s] = letter_t
+    reverse_map[letter_t] = letter_s
+  }
+
+  return true
+}

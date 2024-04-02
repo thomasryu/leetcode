@@ -49,3 +49,19 @@ var lengthOfLastWord = function (s) {
 
   return result
 }
+
+// Attempt made at 01/04/2024
+var lengthOfLastWord = function (s) {
+  let i = s.length - 1
+  while (s[i] == ' ') {
+    i--
+  }
+
+  let result = 0
+  while (s[i] != ' ' && i >= 0) {
+    result++
+    i--
+  }
+
+  return result
+}
