@@ -41,3 +41,23 @@ var countSubstrings = function (s) {
 
   return result
 }
+
+// Attempt made at 04/04/2024
+var longestPalindrome = function (s) {
+  let result_left = 0
+  let result_right = 0
+
+  const expandSearch = (left, right) => {
+    if (left < 0 || right >= s.length || s[left] != s[right]) return
+    if (right - left > result_right - result_left)
+      [result_left, result_right] = [left, right]
+    expandSearch(--left, ++right)
+  }
+
+  for (let i = 0; i < s.length - 1; i++) {
+    expandSearch(i, i)
+    expandSearch(i, i + 1)
+  }
+
+  return s.slice(result_left, result_right + 1)
+}

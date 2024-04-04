@@ -38,3 +38,76 @@ var longestConsecutive = function (nums) {
 
   return result
 }
+
+// Attempt made at 04/04/2024
+var longestConsecutive = function (nums) {
+  if (nums.length == 0) return 0
+
+  const set = new Set(nums)
+  let result = 1
+
+  for (let num of set.values()) {
+    if (set.has(num + 1) && !set.has(num - 1)) {
+      let i = 1
+      while (set.has(num + 1)) {
+        num += 1
+        i++
+      }
+      result = Math.max(i, result)
+    }
+  }
+
+  return result
+}
+
+// Attempt made at 04/04/2024
+var longestConsecutive = function (nums) {
+  if (nums.length == 0) return 0
+
+  class UnionFind {
+    constructor() {
+      this.parent = new Map()
+      this.size = new Map()
+    }
+
+    add(a) {
+      this.parent.set(a, a)
+      this.size.set(a, 1)
+    }
+
+    find(n) {
+      if (this.parent.get(n) == n) return n
+      this.parent.set(n, this.find(this.parent.get(n)))
+      return this.parent.get(n)
+    }
+
+    union(a, b) {
+      const root_a = this.find(a)
+      const root_b = this.find(b)
+
+      if (root_a == root_b) return
+
+      const size_a = this.size.get(root_a)
+      const size_b = this.size.get(root_b)
+
+      if (size_a >= size_b) {
+        this.parent.set(root_b, root_a)
+        this.size.set(root_a, size_a + size_b)
+      } else {
+        this.parent.set(root_a, root_b)
+        this.size.set(root_b, size_a + size_b)
+      }
+    }
+  }
+
+  const union_find = new UnionFind()
+  for (let n of nums) {
+    if (union_find.parent.has(n)) continue
+
+    union_find.add(n)
+    if (union_find.parent.has(n - 1)) union_find.union(n, n - 1)
+    if (union_find.parent.has(n + 1)) union_find.union(n, n + 1)
+  }
+
+  return Math.max(...union_find.size.values())
+}

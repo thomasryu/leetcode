@@ -98,14 +98,14 @@ var construct = function (grid) {
       iMiddle,
       iEnd,
       jStart,
-      jMiddle,
+      jMiddle
     )
     const bottomRight = construct(
       node.bottomRight,
       iMiddle,
       iEnd,
       jMiddle,
-      jEnd,
+      jEnd
     )
 
     // If all quads have the same value, set it as a leaf,
@@ -135,4 +135,49 @@ var construct = function (grid) {
 
   construct(root, 0, n, 0, n)
   return root
+}
+
+// Attempt 04/04/2024
+var construct = function (grid) {
+  const n = grid.length
+
+  // 0: isLeaf, 1: val
+  const createNode = (start_row, start_col, size) => {
+    // If current quad is of size 1, return leaf
+    if (size == 1)
+      return new Node(grid[start_row][start_col], true, null, null, null, null)
+
+    const half = size / 2
+    let children = [
+      createNode(start_row, start_col, half),
+      createNode(start_row, start_col + half, half),
+      createNode(start_row + half, start_col, half),
+      createNode(start_row + half, start_col + half, half),
+    ]
+    const [topLeft, topRight, bottomLeft, bottomRight] = children
+
+    let isLeaf = false
+    let value = true
+
+    if (
+      topLeft.isLeaf &&
+      topRight.isLeaf &&
+      bottomLeft.isLeaf &&
+      bottomRight.isLeaf
+    ) {
+      if (
+        topLeft.val == topRight.val &&
+        topRight.val == bottomLeft.val &&
+        bottomLeft.val == bottomRight.val
+      ) {
+        isLeaf = true
+        value = topLeft.val
+      }
+    }
+
+    if (isLeaf) children.fill(null)
+    return new Node(value, isLeaf, ...children)
+  }
+
+  return createNode(0, 0, n)
 }
