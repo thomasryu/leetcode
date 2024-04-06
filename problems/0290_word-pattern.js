@@ -49,3 +49,25 @@ var wordPattern = function (pattern, s) {
 
   return true
 }
+
+// Attempt made at 05/04/2024
+var wordPattern = function (pattern, s) {
+  const words = s.split(' ')
+  if (words.length != pattern.length) return false
+
+  const map = new Map()
+  const reverse_map = new Map()
+
+  for (let i = 0; i < words.length; i++) {
+    const char = pattern[i]
+    const word = words[i]
+
+    if (map.has(char) && map.get(char) != word) return false
+    else map.set(char, word)
+
+    if (reverse_map.has(word) && reverse_map.get(word) != char) return false
+    else reverse_map.set(word, char)
+  }
+
+  return true
+}

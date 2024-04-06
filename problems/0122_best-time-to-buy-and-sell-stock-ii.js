@@ -26,3 +26,23 @@ var maxProfit = function (prices) {
 
   return total
 }
+
+// Attempt made at 05/04/2024
+var maxProfit = function (prices) {
+  // 0: The current maximum profit if tou currently hold no stock (i.e. can only buy)
+  // 1: The current maximum profit if you currently have stock (i.e. can only sell)
+
+  const dp = Array(3)
+  dp[0] = 0
+  dp[1] = -Infinity
+
+  for (let price of prices) {
+    // We either keep the status quo or sell our previous stock
+    dp[0] = Math.max(dp[0], dp[1] + price)
+
+    // We either keep the status quo or buy the current stuck
+    dp[1] = Math.max(dp[1], dp[0] - price)
+  }
+
+  return Math.max(dp[0], dp[1])
+}

@@ -93,3 +93,45 @@ var minimumSemesters = function (n, relations) {
   // 4. We check if all courses were completed
   return requirements.every((reqs) => reqs == 0) ? semester : -1
 }
+
+// Attempt made at 05/04/2024
+var minimumSemesters = function (n, relations) {
+  const completed = new Set()
+
+  const reqs = {}
+  for (let [prev, next] of relations) {
+    reqs[next] || (reqs[next] = [])
+    reqs[next].push(prev)
+  }
+
+  // Gives me how many semester it takes to complete course i
+  const dp = Array(n).fill(-1)
+
+  // Courses that are "pending" during our DFS dive
+  const visited = new Set()
+
+  // Returns how many semeters it takes to complete course i
+  const dfs = (course) => {
+    if (!reqs[course]) return 1
+    if (dp[course] > 0) return dp[course]
+
+    let max = 0
+    for (const req of reqs[course]) {
+      if (visited.has(req)) {
+        max = Infinity
+        break
+      }
+
+      visited.add(req)
+      max = Math.max(max, dfs(req))
+      visited.delete(req)
+    }
+
+    dp[course] = max + 1
+    return dp[course]
+  }
+
+  let max = -1
+  for (let i = 1; i <= n; i++) max = Math.max(dfs(i), max)
+  return max == Infinity ? -1 : max
+}
