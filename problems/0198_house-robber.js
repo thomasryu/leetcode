@@ -57,3 +57,20 @@ var rob = function (nums) {
 
   return Math.max(y, z)
 }
+
+// Attempt made at 08/04/2024
+var rob = function (nums) {
+  if (nums.length == 1) return nums[0]
+  // dp[i] is the current maximum profit of reaching nums[i]
+  // (without robbing nums[i])
+  const dp = Array(nums.length).fill(0)
+  dp[0] = nums[0]
+  dp[1] = nums[1]
+
+  for (let i = 0; i < nums.length; i++)
+    for (let j = i + 2; j < nums.length && j <= i + 3; j++) {
+      dp[j] = Math.max(dp[j], dp[i] + nums[j])
+    }
+
+  return Math.max(...dp)
+}

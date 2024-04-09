@@ -52,3 +52,17 @@ var kthSmallest = function (root, k) {
     current = current.right
   }
 }
+
+// Attempt made at 08/04/2024
+var kthSmallest = function (root, k) {
+  const array = []
+  const populate = (node) => {
+    if (node == null) return
+    populate(node.left)
+    array.push(node.val)
+    populate(node.right)
+  }
+
+  populate(root)
+  return array[k - 1]
+}

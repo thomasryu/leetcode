@@ -115,3 +115,42 @@ var updateMatrix = function (mat) {
 
   return mat
 }
+
+// Attempt made at 09/04/2024
+var updateMatrix = function (mat) {
+  const m = mat.length
+  const n = mat[0].length
+
+  const max_distance = m * n
+  const queue = []
+
+  const steps = [
+    [-1, 0],
+    [0, 1],
+    [1, 0],
+    [0, -1],
+  ]
+
+  for (let i = 0; i < m; i++)
+    for (let j = 0; j < n; j++) {
+      if (mat[i][j]) mat[i][j] = max_distance
+      else queue.push([i, j])
+    }
+
+  while (queue.length) {
+    const [i, j] = queue.shift()
+    const val = mat[i][j]
+
+    for (let [di, dj] of steps) {
+      const [ni, nj] = [i + di, j + dj]
+
+      if (ni < 0 || ni >= m || nj < 0 || nj >= n) continue
+      if (val + 1 >= mat[ni][nj]) continue
+
+      mat[ni][nj] = val + 1
+      queue.push([ni, nj])
+    }
+  }
+
+  return mat
+}
