@@ -104,3 +104,45 @@ var evaluate = function (numerator, denominator, visited, graph) {
 
   return -1
 }
+
+// Attempt made at 11/04/2024
+var calcEquation = function (equations, values, queries) {
+  const adj_list = {}
+  for (let i = 0; i < equations.length; i++) {
+    const [a, b] = equations[i]
+    const val = values[i]
+    adj_list[a] || (adj_list[a] = {})
+    adj_list[b] || (adj_list[b] = {})
+    adj_list[a][b] = val
+    adj_list[b][a] = 1 / val
+  }
+
+  const dfs = (curr, target) => {
+    if (!adj_list[curr]) return undefined
+    if (curr == target) return 1
+
+    for (let next in adj_list[curr]) {
+      if (visited.has(next)) continue
+      visited.add(next)
+      const result = dfs(next, target)
+      visited.delete(next)
+
+      if (result != undefined) {
+        const prod = adj_list[curr][next] * result
+        return (adj_list[curr][target] = prod)
+      }
+    }
+  }
+
+  const result = []
+  const visited = new Set()
+
+  for (let [a, b] of queries) {
+    visited.add(a)
+    const prod = dfs(a, b)
+    result.push(prod == undefined ? -1 : prod)
+    visited.delete(a)
+  }
+
+  return result
+}
