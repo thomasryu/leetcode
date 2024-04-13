@@ -98,3 +98,28 @@ var trap = function (height) {
 
   return result
 }
+
+// Attempt made at 12/04/2024
+var trap = function (height) {
+  const n = height.length
+  const max_to_left = [0] // highest element to the left of i (not including i)
+  const max_to_right = [0] // highest element to the right of i (not including i)
+
+  for (let i = 0; i < n - 1; i++) {
+    const j = n - 1 - i
+
+    const curr_max_left = max_to_left[max_to_left.length - 1]
+    max_to_left.push(Math.max(curr_max_left, height[i]))
+
+    const curr_max_right = max_to_right[0]
+    max_to_right.unshift(Math.max(curr_max_right, height[j]))
+  }
+
+  let sum = 0
+  for (let i = 0; i < n; i++) {
+    const borders = Math.min(max_to_left[i], max_to_right[i])
+    sum += Math.max(borders - height[i], 0)
+  }
+
+  return sum
+}
