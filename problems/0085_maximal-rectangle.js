@@ -40,21 +40,16 @@ var maximalRectangle = function (matrix) {
   const vert_streak = Array(n).fill(0)
 
   for (let i = 0; i < m; i++) {
-    // hori_streak gives me the current streak of
-    // consecutive 1s in the current row
-    let hori_streak = 0
-
     for (let j = 0; j < n; j++) {
       if (matrix[i][j] == '0') {
-        hori_streak = 0
         vert_streak[j] = 0
         continue
       }
-
-      hori_streak++
       vert_streak[j]++
 
-      // if (j + 1 == n || matrix[i][j + 1] == '0') {
+      // If matrix[i][j] == '1', we check
+      // the maximum area of a matrix ending in [i, j]
+      // looking back at the previous columns
       let height = Infinity
       for (let k = j; k >= 0; k--) {
         height = Math.min(height, vert_streak[k])

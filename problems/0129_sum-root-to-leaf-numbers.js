@@ -59,3 +59,20 @@ const sumNumbers = function (root, previous = 0) {
 
   return sumNumbers(root.left, previous) + sumNumbers(root.right, previous)
 }
+
+// Attempt made at 15/04/2024
+var sumNumbers = function (root) {
+  let result = 0
+
+  const dfs = (node, acc) => {
+    const sum = acc + node.val
+
+    if (!node.left && !node.right) result += sum
+
+    node.left && dfs(node.left, 10 * sum)
+    node.right && dfs(node.right, 10 * sum)
+  }
+
+  dfs(root, 0)
+  return result
+}
