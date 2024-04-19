@@ -86,3 +86,39 @@ var isInterleave = function (s1, s2, s3) {
   }
   return dp[s1.length][s2.length]
 }
+
+// Attempt made at 19/04/2024
+var isInterleave = function (s1, s2, s3) {
+  const m = s1.length
+  const n = s2.length
+  const o = s3.length
+
+  if (m + n != o) return false
+
+  // dp[i][j][k] gives me whether I can complete s3[k ... o-1]
+  // using s1[i ... m-1] and s2[j ... n-1]
+  const tried = new Set()
+
+  const check = (i, j, k) => {
+    console.log(i, j, k, tried)
+    if (i == m && j == n && k == o) return true
+
+    const key = `${i},${j},${k}`
+    if (s1[i] != s3[k] && s2[j] != s3[k]) tried.add(key)
+
+    let result = false
+    if (i < m && s1[i] == s3[k]) {
+      const next_key = `${i + 1},${j},${k + 1}`
+      if (!tried.has(next_key)) result = result || check(i + 1, j, k + 1)
+    }
+    if (j < n && s2[j] == s3[k]) {
+      const next_key = `${i},${j + 1},${k + 1}`
+      if (!tried.has(next_key)) result = result || check(i, j + 1, k + 1)
+    }
+
+    tried.add(key)
+    return result
+  }
+
+  return check(0, 0, 0)
+}

@@ -103,3 +103,23 @@ Solution.prototype.pickIndex = function () {
 
   return -1
 }
+
+// Attempt made at 19/04/2024
+var Solution = function (w) {
+  this.prefix = []
+
+  let sum = 0
+  for (let weight of w) {
+    sum += weight
+    this.prefix.push(sum)
+  }
+}
+
+Solution.prototype.pickIndex = function () {
+  const total_weight = this.prefix[this.prefix.length - 1]
+  const rando_weight = Math.random() * total_weight
+
+  let i = 0
+  while (this.prefix[i] < rando_weight) i++
+  return i
+}

@@ -116,3 +116,35 @@ var dfs = function (i, j, grid) {
   dfs(i, j + 1, grid) // East
   dfs(i, j - 1, grid) // West
 }
+
+// Attempt made at 19/04/2024
+var numIslands = function (grid) {
+  const m = grid.length
+  const n = grid[0].length
+
+  const sink_island = (i, j) => {
+    grid[i][j] = '0'
+
+    const steps = [
+      [0, 1],
+      [0, -1],
+      [1, 0],
+      [-1, 0],
+    ]
+    for (let [di, dj] of steps) {
+      const [ni, nj] = [i + di, j + dj]
+      if (ni < 0 || ni >= m || nj < 0 || nj >= n || grid[ni][nj] != '1')
+        continue
+      sink_island(ni, nj)
+    }
+  }
+
+  let result = 0
+  for (let i = 0; i < m; i++)
+    for (let j = 0; j < n; j++)
+      if (grid[i][j] == '1') {
+        result++
+        sink_island(i, j)
+      }
+  return result
+}
