@@ -66,3 +66,17 @@ var kthSmallest = function (root, k) {
   populate(root)
   return array[k - 1]
 }
+
+// Attempt made at 20/04/2024
+var kthSmallest = function (root, k) {
+  const nums = []
+
+  const dfs = function (node) {
+    node.left && dfs(node.left)
+    nums.push(node.val)
+    node.right && dfs(node.right)
+  }
+
+  dfs(root)
+  return nums[k - 1]
+}

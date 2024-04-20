@@ -67,3 +67,40 @@ var findItinerary = function (tickets) {
 
   return dfs('JFK')
 }
+
+// Attempt made at 20/04/2024
+var findItinerary = function (tickets) {
+  const adj = {}
+
+  tickets.sort((a, b) => {
+    const [a_from, a_to] = a
+    const [b_from, b_to] = b
+    return a_from.localeCompare(b_from) || a_to.localeCompare(b_to)
+  })
+
+  for (const [from, to] of tickets) {
+    adj[from] || (adj[from] = {})
+    adj[from][to] = (adj[from][to] || 0) + 1
+  }
+
+  const result = []
+  const dfs = function (curr = 'JFK') {
+    // If the current node has unused outgoing edges, navigate through them
+    for (const next in adj[curr]) {
+      if (!adj[curr][next]) continue
+
+      adj[curr][next]--
+      dfs(next)
+    }
+
+    // If the node has no more outgoing edges, unshift it to the result
+    // (the first "dead-end" will be the last node we visit,
+    // and the second will be the second last, and so on)
+    result.unshift(curr)
+  }
+
+  // This only works, because our starting point is fixed
+  // and the problem gives us a valid itinerary
+  dfs()
+  return result
+}

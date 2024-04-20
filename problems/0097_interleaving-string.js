@@ -100,7 +100,6 @@ var isInterleave = function (s1, s2, s3) {
   const tried = new Set()
 
   const check = (i, j, k) => {
-    console.log(i, j, k, tried)
     if (i == m && j == n && k == o) return true
 
     const key = `${i},${j},${k}`
