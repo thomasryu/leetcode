@@ -29,3 +29,12 @@ var tribonacci = function (n) {
   for (let i = 3; i <= n; i++) dp[i % 3] = dp[0] + dp[1] + dp[2]
   return dp[n % 3]
 }
+
+// Attempt made at 25/04/2024
+const dp = [0, 1, 1]
+var tribonacci = function (n) {
+  if (dp[n] != undefined) return dp[n]
+  const result = tribonacci(n - 1) + tribonacci(n - 2) + tribonacci(n - 3)
+  dp[n] = result
+  return result
+}
