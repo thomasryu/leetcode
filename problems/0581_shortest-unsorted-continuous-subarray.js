@@ -71,3 +71,19 @@ var findUnsortedSubarray = function (nums) {
   if (!(start || end)) return 0
   return end - start
 }
+
+// Attempt made at 29/04/2024
+var findUnsortedSubarray = function (nums) {
+  const sorted = [...nums].sort((a, b) => a - b)
+  let start = -1
+  let end = -1
+
+  for (let i = 0; i < nums.length; i++) {
+    if (sorted[i] != nums[i]) {
+      if (start < 0) start = i
+      end = i
+    }
+  }
+
+  return end > 0 ? end - start + 1 : 0
+}

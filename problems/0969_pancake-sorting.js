@@ -68,3 +68,31 @@ var pancakeSort = function (arr) {
 
   return result
 }
+
+// Attempt made at 29/04/2024
+var pancakeSort = function (arr) {
+  const flip = (n) => {
+    for (let i = 0; i < Math.floor(n / 2); i++)
+      [arr[i], arr[n - 1 - i]] = [arr[n - 1 - i], arr[i]]
+  }
+
+  const result = []
+  for (let i = arr.length - 1; i >= 0; i--) {
+    if (arr[i] == i + 1) continue
+
+    for (let j = i - 1; j >= 0; j--)
+      if (arr[j] == i + 1) {
+        // Move the number to the first position
+        if (j != 0) {
+          result.push(j + 1)
+          flip(j + 1)
+        }
+        // Move the number to the right position
+        result.push(i + 1)
+        flip(i + 1)
+        break
+      }
+  }
+
+  return result
+}
